@@ -4,7 +4,7 @@ from src.mollky import Molky, LancerInvalide, LancerImpossible
 def test_init_partie():
     mollky = Molky(['Alice', 'Bob'])
 
-    prochain_joueur = mollky.nom_prochain_joueur()
+    prochain_joueur = mollky.nom_joueur_actuel()
 
     assert prochain_joueur == 'Alice'
 
@@ -18,7 +18,7 @@ def test_premier_lancer_avec_une_quille():
 
     # assert
     assert mollky.score() == "Alice : 5 ; Bob : 0"
-    assert mollky.nom_prochain_joueur() == 'Bob'
+    assert mollky.nom_joueur_actuel() == 'Bob'
 
 
 def test_deuxieme_joueur_avec_une_quille():
@@ -30,7 +30,7 @@ def test_deuxieme_joueur_avec_une_quille():
 
     # assert
     assert mollky.score() == "Alice : 5 ; Bob : 5"
-    assert mollky.nom_prochain_joueur() == 'Alice'
+    assert mollky.nom_joueur_actuel() == 'Alice'
 
 
 def test_lanceravec_deux_quilles():

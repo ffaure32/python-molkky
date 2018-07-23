@@ -7,7 +7,7 @@ class Molky:
         self.joueurs = [Joueur(j) for j in joueurs]
         self.index = 0
 
-    def nom_prochain_joueur(self):
+    def nom_joueur_actuel(self):
         return self.joueur_actuel().nom
 
     def score(self):
@@ -15,18 +15,18 @@ class Molky:
         return ' ; '.join(test)
 
     def lance(self, quilles):
-        self.verifier_etat_partie()
+        self._verifier_etat_partie()
         self.joueur_actuel().update_score(Lancer(quilles))
-        self.update_index()
+        self._update_index()
 
-    def verifier_etat_partie(self):
+    def _verifier_etat_partie(self):
         if self.has_vainqueur():
             raise LancerImpossible('la partie est terminee')
 
     def joueur_actuel(self):
         return self.joueurs[self.index]
 
-    def update_index(self):
+    def _update_index(self):
         self.index += 1
         if self.index == len(self.joueurs):
             self.index = 0
@@ -77,7 +77,7 @@ class Joueur:
         self.score = 0
 
     def score_joueur(self):
-        return self.nom + ' : ' + str(self.score)
+        return f"{self.nom} : {self.score}"
 
     def update_score(self, lancer):
         self.score += lancer.score()
