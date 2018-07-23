@@ -12,13 +12,16 @@ class Molky:
         return self._joueur_actuel().nom
 
     def score(self):
-        test = [j.score_joueur() for j in self.joueurs]
-        return ' ; '.join(test)
+        scores_joueurs = [j.score_joueur() for j in self.joueurs]
+        return ' ; '.join(scores_joueurs)
 
     def lance(self, quilles):
         self._verifier_etat_partie()
-        self._joueur_actuel().update_score(Lancer(quilles))
+        self._maj_score_joueur_actuel(quilles)
         self._maj_etat_partie()
+
+    def _maj_score_joueur_actuel(self, quilles):
+        self._joueur_actuel().update_score(Lancer(quilles))
 
     def _maj_etat_partie(self):
         if self._joueur_actuel().is_winner():
