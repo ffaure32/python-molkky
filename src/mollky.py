@@ -6,9 +6,10 @@ class Molky:
     def __init__(self, joueurs):
         self.joueurs = [Joueur(j) for j in joueurs]
         self.index = 0
+        self.partie_terminee = False
 
     def nom_joueur_actuel(self):
-        return self.joueur_actuel().nom
+        return self._joueur_actuel().nom
 
     def score(self):
         test = [j.score_joueur() for j in self.joueurs]
@@ -16,14 +17,20 @@ class Molky:
 
     def lance(self, quilles):
         self._verifier_etat_partie()
-        self.joueur_actuel().update_score(Lancer(quilles))
-        self._update_index()
+        self._joueur_actuel().update_score(Lancer(quilles))
+        self._maj_etat_partie()
+
+    def _maj_etat_partie(self):
+        if self._joueur_actuel().is_winner():
+            self.partie_terminee = True
+        else:
+            self._update_index()
 
     def _verifier_etat_partie(self):
-        if self.has_vainqueur():
+        if self.partie_terminee:
             raise LancerImpossible('la partie est terminee')
 
-    def joueur_actuel(self):
+    def _joueur_actuel(self):
         return self.joueurs[self.index]
 
     def _update_index(self):
