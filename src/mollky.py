@@ -39,11 +39,11 @@ class Molky:
             self.index = 0
 
     def vainqueur(self):
-        vainqueur = self.filtre_vainqueur()
+        vainqueur = self._filtre_vainqueur()
         if len(vainqueur) == 1:
             return vainqueur[0].nom
 
-    def filtre_vainqueur(self):
+    def _filtre_vainqueur(self):
         return [j for j in self.joueurs if j.is_winner()]
 
 
