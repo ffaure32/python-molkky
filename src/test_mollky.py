@@ -1,3 +1,5 @@
+import pytest
+
 from src.mollky import Molky, LancerInvalide, LancerImpossible
 
 
@@ -73,11 +75,8 @@ def test_lancement_partie_terminee():
     # act
     lancers_unitaires(mollky, [12, 12, 12, 12, 2])
 
-    try:
+    with pytest.raises(LancerImpossible):
         mollky.lance([5])
-        assert False
-    except LancerImpossible:
-        assert True
 
 
 def test_lancement_quille_invalide():
@@ -85,11 +84,8 @@ def test_lancement_quille_invalide():
     mollky = Molky(['Alice'])
 
     # act
-    try:
+    with pytest.raises(LancerInvalide):
         mollky.lance([13])
-        assert False
-    except LancerInvalide:
-        assert True
 
 
 def test_lancement_quille_negative():
@@ -97,11 +93,8 @@ def test_lancement_quille_negative():
     mollky = Molky(['Alice'])
 
     # act
-    try:
+    with pytest.raises(LancerInvalide):
         mollky.lance([-1])
-        assert False
-    except LancerInvalide:
-        assert True
 
 
 def test_lancement_memes_quilles():
@@ -109,11 +102,8 @@ def test_lancement_memes_quilles():
     mollky = Molky(['Alice'])
 
     # act
-    try:
+    with pytest.raises(LancerInvalide):
         mollky.lance([5, 5])
-        assert False
-    except LancerInvalide:
-        assert True
 
 
 def test_recupere_vainqueur():
