@@ -4,14 +4,15 @@ SCORE_MAX = 50
 
 class Molky:
     def __init__(self, joueurs):
-        self.joueurs = list(map(lambda j: Joueur(j), joueurs))
+        self.joueurs = [Joueur(j) for j in joueurs]
         self.index = 0
 
     def nom_prochain_joueur(self):
         return self.joueur_actuel().nom
 
     def score(self):
-        return ' ; '.join(list(map(lambda j: j.score_joueur(), self.joueurs)))
+        test = [j.score_joueur() for j in self.joueurs]
+        return ' ; '.join(test)
 
     def lance(self, quilles):
         self.verifier_etat_partie()
@@ -20,7 +21,7 @@ class Molky:
 
     def verifier_etat_partie(self):
         if self.has_vainqueur():
-            raise ValueError('la partie est terminee')
+            raise LancerImpossible('la partie est terminee')
 
     def joueur_actuel(self):
         return self.joueurs[self.index]
@@ -39,7 +40,7 @@ class Molky:
             return vainqueur[0].nom
 
     def filtre_vainqueur(self):
-        return list(filter(lambda j: j.is_winner(), self.joueurs))
+        return [j for j in self.joueurs if j.is_winner()]
 
 
 class Lancer:
@@ -49,18 +50,25 @@ class Lancer:
         self.verifier_doublons_quilles()
 
     def verifier_valeurs_quilles(self):
-        if any(list(map(lambda q: q <= 0 or q > 12, self.quilles))):
-            raise ValueError('quilles invalides')
+        if any([q for q in self.quilles if q <= 0 or q > 12]):
+            raise LancerInvalide('quilles invalides')
 
     def verifier_doublons_quilles(self):
         if len(set(self.quilles)) < len(self.quilles):
-            raise ValueError('quilles en doublon')
+            raise LancerInvalide('quilles en doublon')
 
     def score(self):
         if len(self.quilles) == 1:
             return self.quilles[0]
         else:
             return len(self.quilles)
+
+
+class LancerInvalide(Exception):
+    pass
+
+class LancerImpossible(Exception):
+    pass
 
 
 class Joueur:

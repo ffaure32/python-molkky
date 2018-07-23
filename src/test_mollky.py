@@ -1,4 +1,5 @@
-from src.mollky import Molky
+from src.mollky import Molky, LancerInvalide, LancerImpossible
+
 
 def test_init_partie():
     mollky = Molky(['Alice', 'Bob'])
@@ -6,6 +7,7 @@ def test_init_partie():
     prochain_joueur = mollky.nom_prochain_joueur()
 
     assert prochain_joueur == 'Alice'
+
 
 def test_premier_lancer_avec_une_quille():
     # arrange
@@ -18,6 +20,7 @@ def test_premier_lancer_avec_une_quille():
     assert mollky.score() == "Alice : 5 ; Bob : 0"
     assert mollky.nom_prochain_joueur() == 'Bob'
 
+
 def test_deuxieme_joueur_avec_une_quille():
     # arrange
     mollky = Molky(['Alice', 'Bob'])
@@ -29,6 +32,7 @@ def test_deuxieme_joueur_avec_une_quille():
     assert mollky.score() == "Alice : 5 ; Bob : 5"
     assert mollky.nom_prochain_joueur() == 'Alice'
 
+
 def test_lanceravec_deux_quilles():
     # arrange
     mollky = Molky(['Alice', 'Bob'])
@@ -38,6 +42,7 @@ def test_lanceravec_deux_quilles():
 
     # assert
     assert mollky.score() == "Alice : 2 ; Bob : 0"
+
 
 def test_rate_quilles():
     # arrange
@@ -49,6 +54,7 @@ def test_rate_quilles():
     # assert
     assert mollky.score() == "Alice : 0 ; Bob : 0"
 
+
 def test_depasse_score_max():
     # arrange
     mollky = Molky(['Alice'])
@@ -58,6 +64,7 @@ def test_depasse_score_max():
 
     # assert
     assert mollky.score() == "Alice : 25"
+
 
 def test_lancement_partie_terminee():
     # arrange
@@ -69,8 +76,9 @@ def test_lancement_partie_terminee():
     try:
         mollky.lance([5])
         assert False
-    except ValueError:
+    except LancerImpossible:
         assert True
+
 
 def test_lancement_quille_invalide():
     # arrange
@@ -80,8 +88,9 @@ def test_lancement_quille_invalide():
     try:
         mollky.lance([13])
         assert False
-    except ValueError:
+    except LancerInvalide:
         assert True
+
 
 def test_lancement_quille_negative():
     # arrange
@@ -91,8 +100,9 @@ def test_lancement_quille_negative():
     try:
         mollky.lance([-1])
         assert False
-    except ValueError:
+    except LancerInvalide:
         assert True
+
 
 def test_lancement_memes_quilles():
     # arrange
@@ -102,8 +112,9 @@ def test_lancement_memes_quilles():
     try:
         mollky.lance([5, 5])
         assert False
-    except ValueError:
+    except LancerInvalide:
         assert True
+
 
 def test_recupere_vainqueur():
     # arrange
@@ -115,6 +126,7 @@ def test_recupere_vainqueur():
     # assert
     assert mollky.score() == "Alice : 50 ; Bob : 4"
     assert mollky.vainqueur() == "Alice"
+
 
 def lancers_unitaires(mollky, lancers):
     for lancer in lancers:
