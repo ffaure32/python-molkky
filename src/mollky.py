@@ -38,9 +38,6 @@ class Molky:
         if self.index == len(self.joueurs):
             self.index = 0
 
-    def has_vainqueur(self):
-        return len(self.filtre_vainqueur()) == 1
-
     def vainqueur(self):
         vainqueur = self.filtre_vainqueur()
         if len(vainqueur) == 1:
@@ -53,14 +50,14 @@ class Molky:
 class Lancer:
     def __init__(self, quilles):
         self.quilles = quilles
-        self.verifier_valeurs_quilles()
-        self.verifier_doublons_quilles()
+        self._verifier_valeurs_quilles()
+        self._verifier_doublons_quilles()
 
-    def verifier_valeurs_quilles(self):
+    def _verifier_valeurs_quilles(self):
         if any([q for q in self.quilles if q <= 0 or q > 12]):
             raise LancerInvalide('quilles invalides')
 
-    def verifier_doublons_quilles(self):
+    def _verifier_doublons_quilles(self):
         if len(set(self.quilles)) < len(self.quilles):
             raise LancerInvalide('quilles en doublon')
 
@@ -73,6 +70,7 @@ class Lancer:
 
 class LancerInvalide(Exception):
     pass
+
 
 class LancerImpossible(Exception):
     pass
